@@ -1,0 +1,8 @@
+{
+    "name": "jp.hizono.uniga",
+    "author": "Tsubasa Hizono",
+    "version": "0.1.0",
+    "displayName": "UniGA",
+    "description": "Genetic Algorithm package for Unity",
+    "unity": "2021.3"
+}
