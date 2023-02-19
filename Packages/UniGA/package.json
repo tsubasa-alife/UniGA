@@ -4,6 +4,8 @@
     "version": "0.1.0",
     "displayName": "UniGA",
     "description": "Genetic Algorithm package for Unity",
+    "license": "MIT",
+    "category": "AI",
     "unity": "2020.3",
     "dependencies": {},
     "gitDependencies": {
