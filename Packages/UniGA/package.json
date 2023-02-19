@@ -5,5 +5,8 @@
     "displayName": "UniGA",
     "description": "Genetic Algorithm package for Unity",
     "unity": "2020.3",
-    "dependencies": {}
+    "dependencies": {},
+    "gitDependencies": {
+        "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask"
+    }
 }
