@@ -4,7 +4,7 @@ namespace UniGA
 {
 	public interface IAsyncFitness
 	{
-		UniTask<double> Evaluate(IChromosome chromosome);
+		UniTask<double> Evaluate(IAgent agent);
 	}
 }
 

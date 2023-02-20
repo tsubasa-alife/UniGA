@@ -2,6 +2,6 @@ namespace UniGA
 {
 	public interface IFitness
 	{
-		double Evaluate(IChromosome chromosome);
+		double Evaluate(IAgent agent);
 	}
 }
