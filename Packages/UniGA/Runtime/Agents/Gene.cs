@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace UniGA
 {
+    // 値が格納される遺伝子クラス
     public class Gene
     {
         private object geneValue;
