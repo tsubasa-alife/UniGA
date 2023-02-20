@@ -4,18 +4,18 @@ using UnityEngine;
 
 namespace UniGA
 {
-    public interface IPopulation
-    { 
-        IList<Generation> Generations { get; }
+	public interface IPopulation
+	{ 
+		IList<Generation> Generations { get; }
 
-        Generation CurrentGeneration { get; }
+		Generation CurrentGeneration { get; }
 
-        int GenerationsNumber { get; set; }
+		int GenerationsNumber { get; set; }
 
-        void CreateInitialGeneration();
+		void CreateInitialGeneration();
 
-        void CreateNewGeneration(IList<IAgent> agents);
-    }
+		void CreateNewGeneration(IList<IAgent> agents);
+	}
 }
 
 

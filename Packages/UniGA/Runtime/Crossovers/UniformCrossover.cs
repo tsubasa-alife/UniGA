@@ -4,8 +4,10 @@ using UnityEngine;
 
 namespace UniGA
 {
-	public interface IMutation
-	{
+    public class UniformCrossover
+    {
 
-	}
+    }
+
 }
+

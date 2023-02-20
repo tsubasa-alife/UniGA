@@ -4,43 +4,49 @@ using UnityEngine;
 
 namespace UniGA
 {
-    public abstract class AgentBase : IAgent
-    {
-        private Gene[] genes;
+	public abstract class AgentBase : IAgent
+	{
+		private Gene[] genes;
 
-        public AgentBase(int length)
-        {
-            Length = length;
-            genes = new Gene[length];
-        }
+		public AgentBase(int length)
+		{
+			Length = length;
+			genes = new Gene[length];
+		}
 
-        public int Length { get; set; }
-        public double Fitness { get; set; }
+		public int Length { get; set; }
+		public double? Fitness { get; set; }
 
-        public abstract Gene GenerateGene();
+		public abstract Gene GenerateGene();
 
-        public void CreateGenes()
-        {
-            for (int i = 0; i < Length; i++)
-            {
-                genes[i] = GenerateGene();
-            }
+		public void CreateGenes()
+		{
+			for (int i = 0; i < Length; i++)
+			{
+				genes[i] = GenerateGene();
+			}
 
-            Debug.Log("遺伝子配列を生成しました サイズ: " + Length);
-        }
+			Debug.Log("遺伝子配列を生成しました サイズ: " + Length);
+		}
 
-        public abstract IAgent CreateNewAgent(int length);
+		public abstract IAgent CreateNewAgent(int length);
 
-        public Gene GetGene(int index)
-        {
-            return genes[index];
-        }
+		public Gene GetGene(int index)
+		{
+			return genes[index];
+		}
 
-        public Gene[] GetGenes()
-        {
-            return genes;
-        }
+		public Gene[] GetGenes()
+		{
+			return genes;
+		}
 
-    }
+		public void ReplaceGene(int index, Gene gene)
+		{
+			genes[index] = gene;
+			Fitness = null;
+		}
+
+	}
 }
 
