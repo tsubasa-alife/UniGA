@@ -10,6 +10,8 @@ namespace UniGA
 
 		Generation CurrentGeneration { get; }
 
+		int Size { get; set; }
+
 		int GenerationsNumber { get; set; }
 
 		void CreateInitialGeneration();

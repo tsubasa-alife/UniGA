@@ -8,20 +8,23 @@ namespace UniGA
 	public class GAExecuter
 	{
 		// 同期評価用
-		public GAExecuter(IPopulation population, IFitness fitness, ISelection selection, int endAge)
+		public GAExecuter(IPopulation population, IFitness fitness, ISelection selection, ICrossover crossover, int endAge)
 		{
 			Population = population;
 			Fitness = fitness;
 			Selection = selection;
+			Crossover = crossover;
 			EndAge = endAge;
 		}
 
 		// 非同期評価用
-		public GAExecuter(IPopulation population, IAsyncFitness asyncFitness, ISelection selection, ICrossover crossover)
+		public GAExecuter(IPopulation population, IAsyncFitness asyncFitness, ISelection selection, ICrossover crossover, int endAge)
 		{
 			Population = population;
 			AsyncFitness = asyncFitness;
 			Selection = selection;
+			Crossover = crossover;
+			EndAge = endAge;
 		}
 
 		public IFitness Fitness { get; set; }
@@ -47,8 +50,16 @@ namespace UniGA
 			{
 				Debug.Log("第" + age + "世代");
 				EvaluateFitness();
+
 			}
 			
+		}
+
+		private void EvolveOneGeneration()
+		{
+			var parents = Selection.SelectAgents(Population.Size, Population.CurrentGeneration);
+			var offspring = Crossover.Cross(parents);
+
 		}
 
 		// Agentの適合度を評価する

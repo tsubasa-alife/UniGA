@@ -4,27 +4,37 @@ using UnityEngine;
 
 namespace UniGA
 {
-    public abstract class CrossoverBase : ICrossover
-    {
-        protected CrossoverBase(int parentsNumber, int childrenNumber) : this(parentsNumber, childrenNumber, 2)
-        {
+	public abstract class CrossoverBase : ICrossover
+	{
+		protected CrossoverBase(int parentsNumber, int childrenNumber) : this(parentsNumber, childrenNumber, 2)
+		{
+			ParentsNumber = parentsNumber;
+			ChildrenNumber = childrenNumber;
+		}
 
-        }
+		protected CrossoverBase(int parentsNumber, int childrenNumber, int minAgentLength)
+		{
+			ParentsNumber = parentsNumber;
+			ChildrenNumber = childrenNumber;
+			MinAgentLength = minAgentLength;
+		}
 
-        protected CrossoverBase(int parentsNumber, int childrenNumber, int minAgentLength)
-        {
+		public int ParentsNumber { get; set; }
 
-        }
+		public int ChildrenNumber { get; set; }
 
-        public IList<IAgent> Cross(IList<IAgent> parentAgents)
-        {
-            var firstParent = parentAgents[0];
+		public int MinAgentLength { get; set; }
 
-            return PerformCross(parentAgents);
-        }
 
-        protected abstract IList<IAgent> PerformCross(IList<IAgent> parentAgents);
-    }
+		public IList<IAgent> Cross(IList<IAgent> parentAgents)
+		{
+			var firstParent = parentAgents[0];
+
+			return PerformCross(parentAgents);
+		}
+
+		protected abstract IList<IAgent> PerformCross(IList<IAgent> parentAgents);
+	}
 
 }
 
