@@ -17,9 +17,9 @@ public class OneMaxTest : MonoBehaviour
 
 		var agent = new MyAgent(8);
 
-		var population = new Population(5, agent);
+		var population = new Population(50, agent);
 
-		var ga = new GAExecuter(population, fitness, selection, crossover, 5);
+		var ga = new GAExecuter(population, fitness, selection, crossover, 10);
 
 		Debug.Log("遺伝アルゴリズム開始");
 

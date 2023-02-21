@@ -14,6 +14,7 @@ namespace UniGA
 			Fitness = fitness;
 			Selection = selection;
 			Crossover = crossover;
+			Reinsertion = new ElitistReinsertion();
 			EndAge = endAge;
 		}
 
@@ -24,7 +25,8 @@ namespace UniGA
 			AsyncFitness = asyncFitness;
 			Selection = selection;
 			Crossover = crossover;
-			EndAge = endAge;
+            Reinsertion = new ElitistReinsertion();
+            EndAge = endAge;
 		}
 
 		public IFitness Fitness { get; set; }
@@ -39,7 +41,17 @@ namespace UniGA
 
 		public ICrossover Crossover { get; set; }
 
+		public IReinsertion Reinsertion { get; set; }
+
 		public int EndAge { get; set; }
+
+		public IAgent BestAgent
+		{
+			get
+			{
+				return Population.BestAgent;
+			}
+		}
 
 		// 遺伝アルゴリズムによる進化を開始する（同期）
 		public void Start()
@@ -50,16 +62,20 @@ namespace UniGA
 			{
 				Debug.Log("第" + age + "世代");
 				EvaluateFitness();
-
+				Population.EndCurrentGeneration();
+				Debug.Log("第" + age + "世代の最高適合度: " + BestAgent.Fitness);
+                EvolveOneGeneration();
 			}
 			
 		}
 
+		// 現在の世代を進化させて新しい世代を生成する
 		private void EvolveOneGeneration()
 		{
 			var parents = Selection.SelectAgents(Population.Size, Population.CurrentGeneration);
 			var offspring = Crossover.Cross(parents);
-
+			var newGenerationAgents = Reinsertion.SelectAgents(Population, offspring, parents);
+			Population.CreateNewGeneration(newGenerationAgents);
 		}
 
 		// Agentの適合度を評価する

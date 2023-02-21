@@ -20,10 +20,10 @@ namespace UniGA
 
 		public float MixProbability { get; set; }
 
-		protected override IList<IAgent> PerformCross(IList<IAgent> parentAgents)
+		protected override IList<IAgent> PerformCross(IList<IAgent> parents)
 		{
-			var firstParent = parentAgents[0];
-			var secondParent = parentAgents[1];
+			var firstParent = parents[0];
+			var secondParent = parents[1];
 			var firstChild = firstParent.CreateNewAgent(firstParent.Length);
 			var secondChild = secondParent.CreateNewAgent(secondParent.Length);
 

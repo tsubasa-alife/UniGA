@@ -14,9 +14,13 @@ namespace UniGA
 
 		int GenerationsNumber { get; set; }
 
+		IAgent BestAgent { get; }
+
 		void CreateInitialGeneration();
 
 		void CreateNewGeneration(IList<IAgent> agents);
+
+		void EndCurrentGeneration();
 	}
 }
 

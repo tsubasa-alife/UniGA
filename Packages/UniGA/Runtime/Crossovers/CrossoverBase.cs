@@ -26,14 +26,14 @@ namespace UniGA
 		public int MinAgentLength { get; set; }
 
 
-		public IList<IAgent> Cross(IList<IAgent> parentAgents)
+		public IList<IAgent> Cross(IList<IAgent> parents)
 		{
-			var firstParent = parentAgents[0];
+			var firstParent = parents[0];
 
-			return PerformCross(parentAgents);
+			return PerformCross(parents);
 		}
 
-		protected abstract IList<IAgent> PerformCross(IList<IAgent> parentAgents);
+		protected abstract IList<IAgent> PerformCross(IList<IAgent> parents);
 	}
 
 }

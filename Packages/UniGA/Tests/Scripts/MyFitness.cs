@@ -15,7 +15,7 @@ public class MyFitness : IFitness
 			fitness += Convert.ToDouble(gene.Value);
 		}
 
-		Debug.Log("適合度: " + fitness);
+		//Debug.Log("適合度: " + fitness);
 		return fitness;
 	}
 }

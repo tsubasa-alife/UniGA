@@ -11,7 +11,7 @@ namespace UniGA
 		int MinAgentLength { get; }
 
 		// 交叉メソッド
-		IList<IAgent> Cross(IList<IAgent> parentAgents);
+		IList<IAgent> Cross(IList<IAgent> parents);
 
 	}
 }

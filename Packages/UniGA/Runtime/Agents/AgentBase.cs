@@ -25,8 +25,6 @@ namespace UniGA
 			{
 				genes[i] = GenerateGene();
 			}
-
-			Debug.Log("遺伝子配列を生成しました サイズ: " + Length);
 		}
 
 		public abstract IAgent CreateNewAgent(int length);
@@ -45,6 +43,23 @@ namespace UniGA
 		{
 			genes[index] = gene;
 			Fitness = null;
+		}
+
+		public int CompareTo(IAgent other)
+		{
+			if (other == null)
+			{
+				return -1;
+			}
+
+			var otherFitness = other.Fitness;
+
+			if (Fitness == otherFitness)
+			{
+				return 0;
+			}
+
+			return Fitness > otherFitness ? 1 : -1;
 		}
 
 	}

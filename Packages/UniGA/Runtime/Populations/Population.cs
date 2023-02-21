@@ -25,6 +25,8 @@ namespace UniGA
 
 		public int Size { get; set; }
 
+		public IAgent BestAgent { get; protected set; }
+
 		public IAgent BaseAgent { get; set; }
 
 		// 初期世代を生成する
@@ -51,6 +53,16 @@ namespace UniGA
 			CurrentGeneration = new Generation(GenerationsNumber, agents);
 			GenerationsNumber++;
 			Generations.Add(CurrentGeneration);
+		}
+
+		public void EndCurrentGeneration()
+		{
+			CurrentGeneration.End(Size);
+
+			if (BestAgent == null || BestAgent.CompareTo(CurrentGeneration.BestAgent) != 0)
+			{
+				BestAgent = CurrentGeneration.BestAgent;
+			}
 		}
 
 	}
