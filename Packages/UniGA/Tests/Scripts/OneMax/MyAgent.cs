@@ -12,7 +12,7 @@ public class MyAgent : AgentBase
 		CreateGenes();
 	}
 
-	public override Gene GenerateGene()
+	public override Gene GenerateGene(int index)
 	{
 		var geneValue = random.Next(0, 2);
 		return new Gene(geneValue);

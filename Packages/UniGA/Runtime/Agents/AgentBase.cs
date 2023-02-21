@@ -17,13 +17,18 @@ namespace UniGA
 		public int Length { get; set; }
 		public double? Fitness { get; set; }
 
-		public abstract Gene GenerateGene();
+		public abstract Gene GenerateGene(int geneIndex);
+
+		public void CreateGene(int index)
+		{
+			ReplaceGene(index, GenerateGene(index));
+		}
 
 		public void CreateGenes()
 		{
 			for (int i = 0; i < Length; i++)
 			{
-				genes[i] = GenerateGene();
+				ReplaceGene(i, GenerateGene(i));
 			}
 		}
 

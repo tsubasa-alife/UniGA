@@ -6,8 +6,6 @@ namespace UniGA
 {
 	public class UniformCrossover : CrossoverBase
 	{
-		private System.Random random = new System.Random();
-
 		public UniformCrossover(float mixProbability) : base(2,2)
 		{
 			MixProbability = mixProbability;
@@ -29,9 +27,7 @@ namespace UniGA
 
 			for (int i = 0; i < firstParent.Length; i++)
 			{
-				float randValue = (float)random.NextDouble();
-
-				if (randValue < MixProbability)
+				if (RandomizationProvider.Current.GetDouble() < MixProbability)
 				{
 					firstChild.ReplaceGene(i, firstParent.GetGene(i));
 					secondChild.ReplaceGene(i, secondParent.GetGene(i));

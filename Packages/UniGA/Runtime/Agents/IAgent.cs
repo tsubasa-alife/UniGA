@@ -14,7 +14,7 @@ namespace UniGA
 		IAgent CreateNewAgent(int length);
 
 		// 遺伝子を生成する
-		Gene GenerateGene();
+		Gene GenerateGene(int geneIndex);
 
 		// 遺伝子配列を生成する
 		void CreateGenes();

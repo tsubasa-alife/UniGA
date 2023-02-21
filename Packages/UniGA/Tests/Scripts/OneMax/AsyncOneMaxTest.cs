@@ -7,19 +7,21 @@ public class AsyncOneMaxTest : MonoBehaviour
 {
 	private async void Start()
 	{
-		Debug.Log("Hello UniGA. Let's solve OneMax-Problem !");
+		Debug.Log("Hello UniGA. Let's solve OneMax-Problem asynchronously !");
 
 		var selection = new EliteSelection();
 
 		var crossover = new UniformCrossover();
 
-		var fitness = new MyAsyncFitness();
+        var mutation = new UniformMutation();
+
+        var fitness = new MyAsyncFitness();
 
 		var agent = new MyAgent(8);
 
-		var population = new Population(50, agent);
+		var population = new Population(5, agent);
 
-		var ga = new GAExecuter(population, fitness, selection, crossover, 10);
+		var ga = new GAExecuter(population, fitness, selection, crossover, mutation, 10);
 
 		Debug.Log("遺伝アルゴリズム開始");
 

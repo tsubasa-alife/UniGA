@@ -6,6 +6,6 @@ namespace UniGA
 {
 	public interface IMutation
 	{
-
+		void Mutate(IAgent agent, float probability);
 	}
 }

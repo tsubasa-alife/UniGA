@@ -13,13 +13,15 @@ public class OneMaxTest : MonoBehaviour
 
 		var crossover = new UniformCrossover();
 
+		var mutation = new UniformMutation();
+
 		var fitness = new MyFitness();
 
 		var agent = new MyAgent(8);
 
-		var population = new Population(50, agent);
+		var population = new Population(5, agent);
 
-		var ga = new GAExecuter(population, fitness, selection, crossover, 10);
+		var ga = new GAExecuter(population, fitness, selection, crossover, mutation, 10);
 
 		Debug.Log("遺伝アルゴリズム開始");
 
