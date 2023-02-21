@@ -69,6 +69,21 @@ namespace UniGA
 			
 		}
 
+		public async UniTask StartAsync()
+		{
+            Population.CreateInitialGeneration();
+
+            for (int age = 0; age < EndAge; age++)
+            {
+                Debug.Log("第" + age + "世代");
+                await AsyncEvaluateFitness();
+                Population.EndCurrentGeneration();
+                Debug.Log("第" + age + "世代の最高適合度: " + BestAgent.Fitness);
+                EvolveOneGeneration();
+            }
+
+        }
+
 		// 現在の世代を進化させて新しい世代を生成する
 		private void EvolveOneGeneration()
 		{
@@ -78,7 +93,7 @@ namespace UniGA
 			Population.CreateNewGeneration(newGenerationAgents);
 		}
 
-		// Agentの適合度を評価する
+		// Agentの適合度を評価する（同期）
 		private void EvaluateFitness()
 		{
 			var agents = Population.CurrentGeneration.Agents;
@@ -90,6 +105,18 @@ namespace UniGA
             }
 			
 		}
+
+        // Agentの適合度を評価する（非同期）
+        private async UniTask AsyncEvaluateFitness()
+		{
+            var agents = Population.CurrentGeneration.Agents;
+            foreach (var agent in agents)
+            {
+                var a = agent as IAgent;
+
+                a.Fitness = await AsyncFitness.Evaluate(a);
+            }
+        }
 
 	}
 }

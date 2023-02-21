@@ -7,4 +7,3 @@ namespace UniGA
 		UniTask<double> Evaluate(IAgent agent);
 	}
 }
-
