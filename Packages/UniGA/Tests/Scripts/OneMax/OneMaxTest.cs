@@ -23,6 +23,16 @@ public class OneMaxTest : MonoBehaviour
 
 		var ga = new GAExecuter(population, fitness, selection, crossover, mutation, 10);
 
+		ga.BeforeEvaluation += (sender, e) =>
+		{
+			Debug.Log($"第{ga.Population.GenerationsNumber}世代");
+		};
+
+		ga.BeforeEvolution += (sender, e) =>
+		{
+			Debug.Log($"現世代の最高適応度: {ga.BestAgent.Fitness}");
+		};
+
 		Debug.Log("遺伝アルゴリズム開始");
 
 		ga.Start();

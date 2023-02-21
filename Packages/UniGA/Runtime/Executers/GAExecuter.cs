@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,9 @@ namespace UniGA
 {
 	public class GAExecuter
 	{
+		public const float DefaultCrossoverProbability = 0.75f;
+		public const float DefaultMutationProbability = 0.1f;
+
 		// 同期評価用
 		public GAExecuter(IPopulation population, IFitness fitness, ISelection selection, ICrossover crossover, IMutation mutation, int endAge)
 		{
@@ -17,6 +21,9 @@ namespace UniGA
 			Mutation = mutation;
 			Reinsertion = new ElitistReinsertion();
 			EndAge = endAge;
+
+			CrossoverProbability = DefaultCrossoverProbability;
+			MutationProbability = DefaultMutationProbability;
 		}
 
 		// 非同期評価用
@@ -29,19 +36,35 @@ namespace UniGA
 			Mutation = mutation;
 			Reinsertion = new ElitistReinsertion();
 			EndAge = endAge;
-		}
 
-		public IFitness Fitness { get; set; }
+            CrossoverProbability = DefaultCrossoverProbability;
+            MutationProbability = DefaultMutationProbability;
+        }
 
-		public IAsyncFitness AsyncFitness { get; set; }
+		// GA開始前に実行するイベント
+		public event EventHandler BeforeGAStart;
 
-		public IPopulation Population { get; set; }
+		// 現世代Agentの適合度評価を行う前に実行するイベント 
+		public event EventHandler BeforeEvaluation;
+
+		// 次世代を生成する前に実行するイベント
+		public event EventHandler BeforeEvolution;
+
+		public IPopulation Population { get; private set; }
+
+		public IFitness Fitness { get; private set; }
+
+		public IAsyncFitness AsyncFitness { get; private set; }
 
 		public ISelection Selection { get; set; }
 
+		public ICrossover Crossover { get; set; }
+
+		public float CrossoverProbability { get; set; }
+
 		public IMutation Mutation { get; set; }
 
-		public ICrossover Crossover { get; set; }
+		public float MutationProbability { get; set; }
 
 		public IReinsertion Reinsertion { get; set; }
 
@@ -55,17 +78,38 @@ namespace UniGA
 			}
 		}
 
+		public int GenerationsNumber
+		{
+			get
+			{
+				return Population.GenerationsNumber;
+			}
+		}
+
 		// 遺伝アルゴリズムによる進化を開始する（同期）
 		public void Start()
 		{
+			if (Fitness == null)
+			{
+				throw new Exception("Fitness is null");
+			}
+
+			var handler = BeforeGAStart;
+			handler?.Invoke(this, EventArgs.Empty);
+
 			Population.CreateInitialGeneration();
 
 			for (int age = 0; age < EndAge; age++)
 			{
-				Debug.Log("第" + age + "世代");
+				handler = BeforeEvaluation;
+				handler?.Invoke(this, EventArgs.Empty);
+
 				EvaluateFitness();
 				Population.EndCurrentGeneration();
-				Debug.Log("第" + age + "世代の最高適合度: " + BestAgent.Fitness);
+
+				handler = BeforeEvolution;
+				handler?.Invoke(this, EventArgs.Empty);
+
 				EvolveOneGeneration();
 			}
 			
@@ -74,15 +118,28 @@ namespace UniGA
 		// 遺伝アルゴリズムによる進化を開始する（非同期）
 		public async UniTask StartAsync()
 		{
+			if (AsyncFitness == null)
+			{
+				throw new Exception("AsyncFitness is null");
+			}
+
+			var handler = BeforeGAStart;
+			handler?.Invoke(this, EventArgs.Empty);
+
 			Population.CreateInitialGeneration();
 
 			for (int age = 0; age < EndAge; age++)
 			{
-				Debug.Log("第" + age + "世代");
-				await AsyncEvaluateFitness();
+                handler = BeforeEvaluation;
+                handler?.Invoke(this, EventArgs.Empty);
+
+                await AsyncEvaluateFitness();
 				Population.EndCurrentGeneration();
-				Debug.Log("第" + age + "世代の最高適合度: " + BestAgent.Fitness);
-				EvolveOneGeneration();
+
+                handler = BeforeEvolution;
+                handler?.Invoke(this, EventArgs.Empty);
+
+                EvolveOneGeneration();
 			}
 
 		}
@@ -94,7 +151,7 @@ namespace UniGA
 			var offsprings = Crossover.Cross(parents);
 			foreach (var offspring in offsprings)
 			{
-				Mutation.Mutate(offspring, 0.05f);
+				Mutation.Mutate(offspring, MutationProbability);
 			}
 			var newGenerationAgents = Reinsertion.SelectAgents(Population, offsprings, parents);
 			Population.CreateNewGeneration(newGenerationAgents);
