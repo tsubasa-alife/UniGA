@@ -32,5 +32,7 @@ namespace UniGA
 
 		void ReplaceGenes(int startIndex, Gene[] genes);
 
+		string ToString();
+
 	}
 }

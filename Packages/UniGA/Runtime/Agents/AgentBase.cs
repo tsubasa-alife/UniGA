@@ -82,6 +82,20 @@ namespace UniGA
 			return clone;
 		}
 
+		public new string ToString()
+		{
+			string stringGenes = "";
+			
+			foreach (var gene in _genes)
+			{
+				var geneValue = gene.Value;
+				stringGenes += geneValue + " ";
+			}
+			
+			return stringGenes;
+		}
+
+
 		public int CompareTo(IAgent other)
 		{
 			if (other == null)

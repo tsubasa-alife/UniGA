@@ -38,6 +38,11 @@ public class AsyncOneMaxTest : MonoBehaviour
 		await ga.StartAsync();
 
 		Debug.Log("遺伝アルゴリズム終了");
+		
+		var bestAgent = ga.BestAgent;
+
+		Debug.Log("遺伝子配列: " + bestAgent.ToString());
+		Debug.Log("最終適応度: " + ga.BestAgent.Fitness);
 
 	}
 }
