@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace UniGA
 {
-	public abstract class MutateBase : IMutation
+	public abstract class MutationBase : IMutation
 	{
 		public void Mutate(IAgent agent, float probability)
 		{

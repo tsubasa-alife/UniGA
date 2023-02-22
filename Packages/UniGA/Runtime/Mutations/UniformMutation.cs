@@ -4,21 +4,20 @@ using System.Linq;
 
 namespace UniGA
 {
-	public class UniformMutation : MutateBase
+	public class UniformMutation : MutationBase
 	{
-		private Random random = new Random();
-		private int[] m_mutableGenesIndexes;
+		private int[] _mutableGenesIndexes;
 
-		private readonly bool m_allGenesMutable;
+		private readonly bool _allGenesMutable;
 
 		public UniformMutation(params int[] mutableGenesIndexes)
 		{
-			m_mutableGenesIndexes = mutableGenesIndexes;
+			_mutableGenesIndexes = mutableGenesIndexes;
 		}
 
 		public UniformMutation(bool allGenesMutable)
 		{
-			m_allGenesMutable = allGenesMutable;
+			_allGenesMutable = allGenesMutable;
 		}
 
 		public UniformMutation() : this(false)
@@ -31,21 +30,21 @@ namespace UniGA
 		{
 			var genesLength = agent.Length;
 
-			if (m_mutableGenesIndexes == null || m_mutableGenesIndexes.Length == 0)
+			if (_mutableGenesIndexes == null || _mutableGenesIndexes.Length == 0)
 			{
-				if (m_allGenesMutable)
+				if (_allGenesMutable)
 				{
-                    m_mutableGenesIndexes = Enumerable.Range(0, genesLength).ToArray();
+                    _mutableGenesIndexes = Enumerable.Range(0, genesLength).ToArray();
                 }
                 else
                 {
-                    m_mutableGenesIndexes = RandomizationProvider.Current.GetInts(1, 0, genesLength);
+                    _mutableGenesIndexes = RandomizationProvider.Current.GetInts(1, 0, genesLength);
                 }
             }
 
-			for (int i = 0; i < m_mutableGenesIndexes.Length; i++)
+			for (int i = 0; i < _mutableGenesIndexes.Length; i++)
 			{
-				var geneIndex = m_mutableGenesIndexes[i];
+				var geneIndex = _mutableGenesIndexes[i];
 
 				if (geneIndex >= genesLength)
 				{

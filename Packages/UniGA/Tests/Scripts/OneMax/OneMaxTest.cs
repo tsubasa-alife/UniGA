@@ -13,7 +13,7 @@ public class OneMaxTest : MonoBehaviour
 
 		var crossover = new UniformCrossover();
 
-		var mutation = new UniformMutation();
+		var mutation = new ReverseSequenceMutation();
 
 		var fitness = new MyFitness();
 
