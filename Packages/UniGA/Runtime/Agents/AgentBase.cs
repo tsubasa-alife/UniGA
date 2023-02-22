@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,15 +7,22 @@ namespace UniGA
 {
 	public abstract class AgentBase : IAgent
 	{
-		private Gene[] genes;
+		private Gene[] _genes;
+		private int _length;
 
 		public AgentBase(int length)
 		{
-			Length = length;
-			genes = new Gene[length];
+			_length = length;
+			_genes = new Gene[length];
 		}
 
-		public int Length { get; set; }
+		public int Length
+		{
+			get
+			{
+				return _length;
+			}
+		}
 		public double? Fitness { get; set; }
 
 		public abstract Gene GenerateGene(int geneIndex);
@@ -36,18 +44,42 @@ namespace UniGA
 
 		public Gene GetGene(int index)
 		{
-			return genes[index];
+			return _genes[index];
 		}
 
 		public Gene[] GetGenes()
 		{
-			return genes;
+			return _genes;
 		}
 
 		public void ReplaceGene(int index, Gene gene)
 		{
-			genes[index] = gene;
+			_genes[index] = gene;
 			Fitness = null;
+		}
+
+		public void ReplaceGenes(int startIndex, Gene[] genes)
+		{
+			if (genes.Length > 0)
+			{
+				if (startIndex < 0 || startIndex >= _length)
+				{
+					
+				}
+				
+				Array.Copy(genes, 0, _genes, startIndex, Math.Min(genes.Length, _length - startIndex));
+
+				Fitness = null;
+			}
+		}
+		
+		public IAgent Clone()
+		{
+			var clone = CreateNewAgent(_length);
+			clone.ReplaceGenes(0, GetGenes());
+			clone.Fitness = Fitness;
+
+			return clone;
 		}
 
 		public int CompareTo(IAgent other)

@@ -5,7 +5,7 @@ namespace UniGA
 	public interface IAgent : IComparable<IAgent>
 	{
 		// Agentが持つ遺伝子の個数
-		int Length { get; set; }
+		int Length { get; }
 
 		// Agentの適合度
 		double? Fitness { get; set; }
@@ -25,8 +25,12 @@ namespace UniGA
 		// 遺伝子配列を取得する
 		Gene[] GetGenes();
 
+		IAgent Clone();
+
 		// 遺伝子を置き換える
 		void ReplaceGene(int index, Gene gene);
+
+		void ReplaceGenes(int startIndex, Gene[] genes);
 
 	}
 }

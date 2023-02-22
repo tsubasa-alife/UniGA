@@ -5,7 +5,7 @@ using UnityEngine;
 namespace UniGA
 {
 	public interface IPopulation
-	{ 
+	{
 		IList<Generation> Generations { get; }
 
 		Generation CurrentGeneration { get; }

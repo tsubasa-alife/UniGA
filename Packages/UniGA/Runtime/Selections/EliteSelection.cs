@@ -10,15 +10,15 @@ namespace UniGA
 	public class EliteSelection : ISelection
 	{
 
-		private List<IAgent> previousGenerationAgents;
+		private List<IAgent> _previousGenerationAgents;
 
 		public IList<IAgent> SelectAgents(int number, Generation generation)
 		{
-			previousGenerationAgents = new List<IAgent>();
+			_previousGenerationAgents = new List<IAgent>();
 
-			previousGenerationAgents.AddRange(generation.Agents);
+			_previousGenerationAgents.AddRange(generation.Agents);
 
-			var selected = previousGenerationAgents.OrderByDescending(a => a.Fitness).Take(number).ToList();
+			var selected = _previousGenerationAgents.OrderByDescending(a => a.Fitness).Take(number).ToList();
 
 			return selected;
 		}
