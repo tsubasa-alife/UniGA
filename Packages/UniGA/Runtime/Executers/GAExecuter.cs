@@ -21,6 +21,7 @@ namespace UniGA
 			Mutation = mutation;
 			Reinsertion = new ElitistReinsertion();
 			EndAge = endAge;
+			OperatorsStrategy = new DefaultOperatorsStrategy();
 
 			CrossoverProbability = DefaultCrossoverProbability;
 			MutationProbability = DefaultMutationProbability;
@@ -36,6 +37,7 @@ namespace UniGA
 			Mutation = mutation;
 			Reinsertion = new ElitistReinsertion();
 			EndAge = endAge;
+			OperatorsStrategy = new DefaultOperatorsStrategy();
 
             CrossoverProbability = DefaultCrossoverProbability;
             MutationProbability = DefaultMutationProbability;
@@ -49,6 +51,8 @@ namespace UniGA
 
 		// 次世代を生成する前に実行するイベント
 		public event EventHandler BeforeEvolution;
+		
+		public IOperatorsStrategy OperatorsStrategy { get; set; }
 
 		public IPopulation Population { get; private set; }
 
@@ -147,13 +151,10 @@ namespace UniGA
 		// 現在の世代を進化させて新しい世代を生成する
 		private void EvolveOneGeneration()
 		{
-			var parents = Selection.SelectAgents(Population.Size, Population.CurrentGeneration);
-			var offsprings = Crossover.Cross(parents);
-			foreach (var offspring in offsprings)
-			{
-				Mutation.Mutate(offspring, MutationProbability);
-			}
-			var newGenerationAgents = Reinsertion.SelectAgents(Population, offsprings, parents);
+			var parents = SelectParents();
+			var offsprings = Cross(parents);
+			Mutate(offsprings);
+			var newGenerationAgents = Reinsert(offsprings, parents);
 			Population.CreateNewGeneration(newGenerationAgents);
 		}
 
@@ -180,6 +181,26 @@ namespace UniGA
 
 				a.Fitness = await AsyncFitness.Evaluate(a);
 			}
+		}
+
+		private IList<IAgent> SelectParents()
+		{
+			return Selection.SelectAgents(Population.Size, Population.CurrentGeneration);
+		}
+
+		private IList<IAgent> Reinsert(IList<IAgent> offsprings, IList<IAgent> parents)
+		{
+			return Reinsertion.SelectAgents(Population, offsprings, parents);
+		}
+
+		private IList<IAgent> Cross(IList<IAgent> parents)
+		{
+			return OperatorsStrategy.Cross(Population, Crossover, CrossoverProbability, parents);
+		}
+
+		private void Mutate(IList<IAgent> agents)
+		{
+			OperatorsStrategy.Mutate(Mutation, MutationProbability, agents);
 		}
 
 	}
